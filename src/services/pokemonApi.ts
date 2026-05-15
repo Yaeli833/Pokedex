@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { PokemonListItem, PokemonResponse } from '../types/pokemon';
+import { default as axios, AxiosInstance } from 'axios';
+import { PokemonListItem, PokemonResponse, PokemonDetail } from '../types/pokemon';
 
 const API_BASE_URL = 'https://pokeapi.co/api/v2';
 
-const apiClient = axios.create({
+const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
 });
@@ -31,6 +31,17 @@ export const pokemonApi = {
       return pokemonList;
     } catch (error) {
       console.error('Error fetching Pokemon list:', error);
+      throw error;
+    }
+  },
+
+  // Obtener detalle de Pokémon por id o nombre
+  async getPokemonDetail(idOrName: string | number): Promise<PokemonDetail> {
+    try {
+      const response = await apiClient.get<PokemonDetail>(`/pokemon/${idOrName}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching Pokemon detail:', error);
       throw error;
     }
   },

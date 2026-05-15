@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   FlatList,
@@ -13,10 +13,6 @@ import PokemonCard from '../components/PokemonCard';
 const PokemonListScreen: React.FC = () => {
   const { pokemonList, loading, error, fetchPokemonList } = usePokemonList();
   const [refreshing, setRefreshing] = useState(false);
-
-  useEffect(() => {
-    fetchPokemonList(20);
-  }, []);
 
   const handleRefresh = async () => {
     setRefreshing(true);
