@@ -35,6 +35,47 @@ export const pokemonApi = {
     }
   },
 
+  // Buscar Pokémon por nombre
+  async searchPokemon(name: string): Promise<PokemonListItem | null> {
+    try {
+      const response = await apiClient.get<PokemonDetail>(`/pokemon/${name.toLowerCase()}`);
+      return {
+        id: response.data.id,
+        name: response.data.name,
+        image: response.data.sprites.other['official-artwork'].front_default,
+      };
+    } catch {
+      return null;
+    }
+  },
+
+  // Obtener tipos de Pokémon
+  async getPokemonTypes(): Promise<string[]> {
+    try {
+      const response = await apiClient.get('/type');
+      return response.data.results.map((type: any) => type.name);
+    } catch {
+      return [];
+    }
+  },
+
+  // Obtener Pokémon por tipo
+  async getPokemonByType(type: string): Promise<PokemonListItem[]> {
+    try {
+      const response = await apiClient.get(`/type/${type}`);
+      return response.data.pokemon.slice(0, 20).map((p: any) => {
+        const id = p.pokemon.url.split('/').filter(Boolean).pop();
+        return {
+          id: parseInt(id || '0', 10),
+          name: p.pokemon.name,
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+        };
+      });
+    } catch {
+      return [];
+    }
+  },
+
   // Obtener detalle de Pokémon por id o nombre
   async getPokemonDetail(idOrName: string | number): Promise<PokemonDetail> {
     try {
