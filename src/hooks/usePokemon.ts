@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { pokemonApi } from '../services/pokemonApi';
-import { PokemonListItem, PokemonDetail } from '../types/pokemon';
+import { PokemonDetail, PokemonListItem } from '../types/pokemon';
 
 export const usePokemonList = () => {
   const [pokemonList, setPokemonList] = useState<PokemonListItem[]>([]);
@@ -46,7 +46,7 @@ export const usePokemonDetail = (idOrName: string | number) => {
   }, [idOrName]);
 
   useEffect(() => {
-    if (idOrName) {
+    if (idOrName !== undefined && idOrName !== null && idOrName !== '') {
       fetchPokemonDetail();
     }
   }, [idOrName, fetchPokemonDetail]);

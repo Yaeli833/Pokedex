@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navegacion/AppNavigator';
 import { usePokemonDetail } from '../hooks/usePokemon';
@@ -63,7 +56,7 @@ const PokemonDetailScreen: React.FC<PokemonDetailScreenProps> = ({ route }) => {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Características</Text>
+        <Text style={styles.sectionTitle}>Caracteristicas</Text>
         <View style={styles.statsContainer}>
           <Text style={styles.stat}>Peso: {pokemonDetail.weight / 10} kg</Text>
           <Text style={styles.stat}>Altura: {pokemonDetail.height / 10} m</Text>
@@ -82,7 +75,7 @@ const PokemonDetailScreen: React.FC<PokemonDetailScreenProps> = ({ route }) => {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Estadísticas Base</Text>
+        <Text style={styles.sectionTitle}>Estadisticas Base</Text>
         {pokemonDetail.stats.map((statInfo, index) => (
           <View key={index} style={styles.statRow}>
             <Text style={styles.statName}>

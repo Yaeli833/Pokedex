@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import { View, TextInput, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { pokemonApi } from '../services/pokemonApi';
 
 interface SearchAndFiltersProps {
@@ -26,7 +19,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
   useEffect(() => {
     const loadTypes = async () => {
       const pokemonTypes = await pokemonApi.getPokemonTypes();
-      setTypes(pokemonTypes.slice(0, 10)); // Limitar a 10 tipos principales
+      setTypes(pokemonTypes.slice(0, 10));
     };
     loadTypes();
   }, []);
@@ -45,7 +38,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
     <View style={styles.container}>
       <TextInput
         style={styles.searchInput}
-        placeholder="Buscar Pokémon por nombre..."
+        placeholder="Buscar Pokemon por nombre..."
         value={searchQuery}
         onChangeText={handleSearch}
         autoCapitalize="none"
@@ -60,6 +53,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
             Todos
           </Text>
         </TouchableOpacity>
+        
         {types.map((type) => (
           <TouchableOpacity
             key={type}

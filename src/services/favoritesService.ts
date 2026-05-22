@@ -1,4 +1,3 @@
-// Storage simple en memoria para favoritos
 let favorites: number[] = [];
 
 export const favoritesService = {

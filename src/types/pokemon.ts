@@ -26,21 +26,20 @@ export interface PokemonDetail {
     };
   };
   types: {
-    type: {
-      name: string;
-    };
+    type: { name: string; };
   }[];
   weight: number;
   height: number;
   abilities: {
-    ability: {
-      name: string;
-    };
+    ability: { name: string; };
   }[];
   stats: {
     base_stat: number;
-    stat: {
-      name: string;
-    };
+    stat: { name: string; };
   }[];
+}
+
+export interface ComparisonData {
+  pokemon1: PokemonDetail | null;
+  pokemon2: PokemonDetail | null;
 }

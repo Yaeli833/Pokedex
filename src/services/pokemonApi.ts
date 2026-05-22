@@ -9,7 +9,6 @@ const apiClient: AxiosInstance = axios.create({
 });
 
 export const pokemonApi = {
-  // Obtener lista de Pokémon
   async getPokemonList(limit: number = 20, offset: number = 0): Promise<PokemonListItem[]> {
     try {
       const response = await apiClient.get<PokemonResponse>('/pokemon', {
@@ -17,10 +16,7 @@ export const pokemonApi = {
       });
 
       const pokemonList = response.data.results.map((pokemon) => {
-        const id = pokemon.url
-          .split('/')
-          .filter(Boolean)
-          .pop();
+        const id = pokemon.url.split('/').filter(Boolean).pop();
         return {
           id: parseInt(id || '0', 10),
           name: pokemon.name,
@@ -35,7 +31,6 @@ export const pokemonApi = {
     }
   },
 
-  // Buscar Pokémon por nombre
   async searchPokemon(name: string): Promise<PokemonListItem | null> {
     try {
       const response = await apiClient.get<PokemonDetail>(`/pokemon/${name.toLowerCase()}`);
@@ -49,7 +44,6 @@ export const pokemonApi = {
     }
   },
 
-  // Obtener tipos de Pokémon
   async getPokemonTypes(): Promise<string[]> {
     try {
       const response = await apiClient.get('/type');
@@ -59,7 +53,6 @@ export const pokemonApi = {
     }
   },
 
-  // Obtener Pokémon por tipo
   async getPokemonByType(type: string): Promise<PokemonListItem[]> {
     try {
       const response = await apiClient.get(`/type/${type}`);
@@ -76,7 +69,6 @@ export const pokemonApi = {
     }
   },
 
-  // Obtener detalle de Pokémon por id o nombre
   async getPokemonDetail(idOrName: string | number): Promise<PokemonDetail> {
     try {
       const response = await apiClient.get<PokemonDetail>(`/pokemon/${idOrName}`);

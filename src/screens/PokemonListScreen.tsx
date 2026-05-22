@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import PokemonCard from '../components/PokemonCard';
 import SearchAndFilters from '../components/SearchAndFilters';
 import { useFavorites } from '../hooks/useFavorites';
 import { usePokemonList } from '../hooks/usePokemon';
 import { pokemonApi } from '../services/pokemonApi';
 import { PokemonListItem } from '../types/pokemon';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navegacion/AppNavigator';
+
+type PokemonListNavigationProp = NativeStackNavigationProp<RootStackParamList, 'PokemonList'>;
 
 const PokemonListScreen: React.FC = () => {
+  const navigation = useNavigation<PokemonListNavigationProp>();
   const { pokemonList, loading, error, fetchPokemonList } = usePokemonList();
   const { isFavorite, toggleFavorite } = useFavorites();
+  
   const [refreshing, setRefreshing] = useState(false);
   const [filteredPokemon, setFilteredPokemon] = useState<PokemonListItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -75,7 +75,7 @@ const PokemonListScreen: React.FC = () => {
     if (searchQuery || selectedType) {
       return (
         <View style={styles.centerContainer}>
-          <Text style={styles.emptyText}>No se encontraron Pokémon</Text>
+          <Text style={styles.emptyText}>No se encontraron Pokemon</Text>
           <Text style={styles.emptySubtext}>Intenta con otro nombre o tipo</Text>
         </View>
       );
@@ -87,7 +87,7 @@ const PokemonListScreen: React.FC = () => {
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color="#FF6B6B" />
-        <Text style={styles.loadingText}>Cargando Pokémon...</Text>
+        <Text style={styles.loadingText}>Cargando Pokemon...</Text>
       </View>
     );
   }
@@ -103,11 +103,20 @@ const PokemonListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <SearchAndFilters
-        onSearch={handleSearch}
-        onFilterByType={handleFilterByType}
-        selectedType={selectedType}
-      />
+      <View style={styles.headerContainer}>
+        <SearchAndFilters
+          onSearch={handleSearch}
+          onFilterByType={handleFilterByType}
+          selectedType={selectedType}
+        />
+        
+        <TouchableOpacity 
+          style={styles.compareButton}
+          onPress={() => navigation.navigate('Comparison')}
+        >
+          <Text style={styles.compareButtonText}>Comparar</Text>
+        </TouchableOpacity>
+      </View>
       
       {searchLoading ? (
         <View style={styles.searchLoadingContainer}>
@@ -122,6 +131,7 @@ const PokemonListScreen: React.FC = () => {
               pokemon={item}
               isFavorite={isFavorite(item.id)}
               onToggleFavorite={toggleFavorite}
+              showCompareButton={true}
             />
           )}
           keyExtractor={(item) => item.id.toString()}
@@ -149,6 +159,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  headerContainer: {
+    backgroundColor: '#fff',
+  },
+  compareButton: {
+    backgroundColor: '#FF6B6B',
+    marginHorizontal: 16,
+    marginBottom: 12,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  compareButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   centerContainer: {
     flex: 1,
